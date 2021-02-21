@@ -1,0 +1,20 @@
+package pl.mvwojcik.plan;
+
+public enum MealTime {
+    AFTER_WAKE_UP,
+    BEFORE_BREAKFAST,
+    BREAKFAST,
+    AFTER_BREAKFAST,
+    BRUNCH,
+    BEFORE_TRAINING,
+    TRAINING,
+    AFTER_TRAINING,
+    BEFORE_DINNER,
+    DINNER,
+    AFTER_DINNER,
+    SNACK,
+    BEFORE_SUPPER,
+    SUPPER,
+    AFTER_SUPPER,
+    BEFORE_SLEEP
+}
