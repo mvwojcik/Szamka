@@ -1,17 +1,10 @@
 package pl.mvwojcik.ingredient;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import pl.mvwojcik.utils.Mapper;
+import org.springframework.web.bind.annotation.*;
+import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 
-import java.util.List;
-
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/ingredients")
 public final class IngredientsController {
@@ -22,20 +15,23 @@ public final class IngredientsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Ingredient>> getAll() {
-        return ResponseEntity.ok(ingredientsService.getAll());
+    public ResponseEntity getAll(@RequestParam int page) {
+        return ingredientsService.getAll(page).toResponseEntity();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity findIngredientByID(@PathVariable Long id) {
+        return ingredientsService.findByID(id).toResponseEntity();
     }
 
     @PostMapping
-    public ResponseEntity<IngredientDTO> save(@RequestBody IngredientDTO ingredientDTO) {
-        return ResponseEntity.status(201)
-                             .body(Mapper.mapIngredientToIngredientDTO(ingredientsService.save(ingredientDTO)));
+    public ResponseEntity createIngredient(@RequestBody IngredientDTO ingredientDTO) {
+        return ingredientsService.createIngredient(ingredientDTO).toResponseEntity();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable Integer id) {
-        ingredientsService.delete(id);
-        return ResponseEntity.noContent()
-                             .build();
+    public ResponseEntity delete(@PathVariable Long id) {
+        return ingredientsService.delete(id).toResponseEntity();
+
     }
 }

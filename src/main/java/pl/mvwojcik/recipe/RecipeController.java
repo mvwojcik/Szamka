@@ -1,15 +1,14 @@
 package pl.mvwojcik.recipe;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import pl.mvwojcik.recipe.data.dto.RecipeDTO;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/recipes")
 public class RecipeController {
 
@@ -20,13 +19,18 @@ public class RecipeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RecipeDTO>> getAll() {
-        return ResponseEntity.ok(recipesService.findAll());
+    public ResponseEntity<Page<RecipeDTO>> getAll(@RequestParam int page) {
+        return ResponseEntity.ok(recipesService.findAll(page));
     }
 
     @PostMapping
-    public ResponseEntity<RecipeDTO> create(@RequestBody RecipeDTO recipeDTO) {
-        return ResponseEntity.ok(recipesService.create(recipeDTO));
+    public ResponseEntity create(@RequestBody RecipeDTO recipeDTO) {
+        return recipesService.create(recipeDTO).toResponseEntity();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity delete(@PathVariable Long id) {
+        return recipesService.delete(id).toResponseEntity();
     }
 
 }
