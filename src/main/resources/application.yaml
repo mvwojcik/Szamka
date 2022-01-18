@@ -28,4 +28,7 @@ spring:
   cache:
     jcache:
       config: classpath:ehcache.xml
+jwt:
+  secret: sfasf!@jie42%$jas12432ed
+  expirationTime: 3600000
 

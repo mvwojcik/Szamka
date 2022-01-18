@@ -7,7 +7,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.mvwojcik.allergen.data.Allergen;
-import pl.mvwojcik.allergen.data.AllergenDTO;
 import pl.mvwojcik.allergen.data.AllergensRepository;
 import pl.mvwojcik.comunication.ContentResponse;
 import pl.mvwojcik.comunication.EmptyResponse;
@@ -16,16 +15,16 @@ import pl.mvwojcik.error.ErrorConstants;
 import pl.mvwojcik.error.ErrorResponse;
 import pl.mvwojcik.ingredient.data.IngredientBuilder;
 import pl.mvwojcik.ingredient.data.IngredientMapper;
+import pl.mvwojcik.ingredient.data.IngredientsRepository;
 import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
-import pl.mvwojcik.ingredient.data.IngredientsRepository;
 import pl.mvwojcik.ingredient.data.model.IngredientProjection;
-import pl.mvwojcik.vitamins.data.model.Vitamin;
 import pl.mvwojcik.vitamins.VitaminsService;
+import pl.mvwojcik.vitamins.data.model.Vitamin;
 
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public final class IngredientsService {
@@ -77,7 +76,6 @@ public final class IngredientsService {
         return new ContentResponse<>(HttpStatus.CREATED, dto);
     }
 
-    //todo projection instead
     public ContentResponse<Page<IngredientProjection>> getAll(int page) {
         return new ContentResponse<>(HttpStatus.OK, ingredientsRepository.findAllBy(PageRequest.of(page,10)));
     }

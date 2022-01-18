@@ -7,7 +7,6 @@ import io.vavr.control.Option;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.mvwojcik.comunication.ContentResponse;
@@ -15,8 +14,8 @@ import pl.mvwojcik.comunication.EmptyResponse;
 import pl.mvwojcik.comunication.ServiceResponse;
 import pl.mvwojcik.error.ErrorConstants;
 import pl.mvwojcik.error.ErrorResponse;
-import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.ingredient.IngredientsService;
+import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.recipe.data.RecipeMapper;
 import pl.mvwojcik.recipe.data.RecipeRepository;
 import pl.mvwojcik.recipe.data.dto.RecipeDTO;
@@ -25,7 +24,6 @@ import pl.mvwojcik.vitamins.VitaminsService;
 
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public final class RecipesService {
@@ -45,6 +43,14 @@ public final class RecipesService {
     public final Page<RecipeDTO> findAll(int page) {
         return recipeRepository.findAll(PageRequest.of(page,10))
                 .map(r -> RecipeMapper.mapRecipeToRecipeDTO(r, vitaminsService.getAll()));
+    }
+
+    public ServiceResponse findById(Long id) {
+        return Option.ofOptional(recipeRepository.findById(id))
+                .toEither(ErrorConstants.recipeNotFound(id))
+                .map(d -> RecipeMapper.mapRecipeToRecipeDTO(d, vitaminsService.getAll()))
+                .map(recipe -> new ContentResponse(HttpStatus.OK, recipe))
+                .fold(Function.identity(), Function.identity());
     }
 
     public ServiceResponse create(RecipeDTO recipeDTO) {

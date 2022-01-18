@@ -151,6 +151,14 @@ VALUES (0.1, 'BREAKFAST', 5, 1),
        (2.1, 'DINNER', 2, 1),
        (1.5, 'DINNER', 6, 2);
 
+INSERT INTO public.application_users(id, active, locked,username, password, role)
+VALUES (7, true, false, 'admin','$2a$10$LbZqyY7ZWrIafbJ72ftl2uAzZbmEFX2u50BUrS1LmSOac6DlRgsAK','ADMIN'),--psswd:test
+       (11, true, false, 'mati','$2a$10$ZAB04.jcc5z1r1vBOFiY.u5DLeokr2m9e4u9euuFoiklnYCzHGB5O','USER');--psswd:Passw0rd
+
+INSERT INTO public.app_users(
+    id, activity_level, daily_kcal, height, username, weight)
+VALUES (7, 3, 3500, 220, 'admin', 120.5),
+       (8,8,4000,183,'mati',73.5);
 
 -- INSERT INTO public.diet_plan_user(
 --     fk_dietplan, fk_user)

@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import pl.mvwojcik.vitamins.data.VitaminsRepository;
 import pl.mvwojcik.vitamins.data.model.Vitamin;
 
-import java.util.List;
 import java.util.Set;
 
 @Service

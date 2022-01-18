@@ -1,8 +1,23 @@
 package pl.mvwojcik.plan.data.model;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import pl.mvwojcik.user.User;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedAttributeNode;
+import javax.persistence.NamedEntityGraph;
+import javax.persistence.NamedSubgraph;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,12 +69,32 @@ public class DietPlan {
     @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<DietPlanIngredient> ingredients;
 
+    private DietAccessLevel accessType;
+
+    @ManyToOne
+    private User user;
+
 
     public DietPlan(Long id, String name, String description, Set<DietPlanRecipe> recipes, Set<DietPlanIngredient> ingredients) {
         this.id = id;
         this.name = name;
         this.description = description;
 
+        this.recipes = recipes
+                .stream()
+                .map(r -> new DietPlanRecipe(r.getMealTime(), r.getAmount(), r.getRecipe(), this))
+                .collect(Collectors.toSet());
+        this.ingredients = ingredients.stream()
+                .map(i -> new DietPlanIngredient(i.getMealTime(), i.getAmount(), i.getIngredient(), this))
+                .collect(Collectors.toSet());
+    }
+
+    public DietPlan(Long id, String name, String description, Set<DietPlanRecipe> recipes, Set<DietPlanIngredient> ingredients, DietAccessLevel dietAccessLevel, User user) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.user = user;
+        this.accessType = dietAccessLevel;
         this.recipes = recipes
                 .stream()
                 .map(r -> new DietPlanRecipe(r.getMealTime(), r.getAmount(), r.getRecipe(), this))

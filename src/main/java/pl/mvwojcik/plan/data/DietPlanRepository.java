@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import pl.mvwojcik.plan.data.model.DietPlan;
 import pl.mvwojcik.plan.data.model.DietPlanProjection;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface DietPlanRepository extends JpaRepository<DietPlan, Long> {
