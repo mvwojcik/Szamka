@@ -25,10 +25,8 @@ import pl.mvwojcik.recipe.RecipesService;
 import pl.mvwojcik.recipe.data.model.Recipe;
 import pl.mvwojcik.vitamins.VitaminsService;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class DietPlanService {

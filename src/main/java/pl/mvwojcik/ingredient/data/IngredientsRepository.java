@@ -8,8 +8,6 @@ import org.springframework.stereotype.Repository;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.ingredient.data.model.IngredientProjection;
 
-import javax.persistence.NamedEntityGraph;
-import javax.persistence.NamedEntityGraphs;
 import java.util.List;
 import java.util.Optional;
 

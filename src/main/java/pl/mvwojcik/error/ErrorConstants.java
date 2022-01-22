@@ -109,4 +109,56 @@ public interface ErrorConstants {
                 .message("DietPlan not found with id: " + id)
                 .build();
     }
+
+
+    static ErrorResponse userNotFound(String username) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND)
+                .message("User not found with username: " + username)
+                .build();
+    }
+
+    static ErrorResponse userAttemptedAccess(String username) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message("You can not access data of user: " + username)
+                .build();
+    }
+
+    static ErrorResponse userWeightNotValid(Double weight) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message("Weight value not valid: " + weight)
+                .build();
+    }
+
+    static ErrorResponse userHeightNotValid(Integer weight) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message("Height value not valid: " + weight)
+                .build();
+    }
+
+    static ErrorResponse userKcalNotValid(Integer weight) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message("Kcal value not valid: " + weight)
+                .build();
+    }
+
+    static ErrorResponse userExists(String username) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.CONFLICT)
+                .message("User already exists" + username)
+                .build();
+    }
+
+
+    static ErrorResponse userNotCreated(String username) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .message("User could not be created: " + username)
+                .build();
+    }
+
 }

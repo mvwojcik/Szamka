@@ -1,6 +1,10 @@
 package pl.mvwojcik.vitamins.data.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.mvwojcik.model.Unit;
 import pl.mvwojcik.vitamins.data.VitaminType;
 

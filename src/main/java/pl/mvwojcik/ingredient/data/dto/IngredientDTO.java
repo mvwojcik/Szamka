@@ -1,7 +1,11 @@
 package pl.mvwojcik.ingredient.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.mvwojcik.allergen.data.AllergenDTO;
 import pl.mvwojcik.vitamins.data.dto.VitaminInIngredientDTO;
 

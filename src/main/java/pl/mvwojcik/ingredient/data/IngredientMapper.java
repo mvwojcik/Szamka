@@ -5,12 +5,10 @@ import pl.mvwojcik.allergen.data.AllergenMapper;
 import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.vitamins.data.VitaminMapper;
-import pl.mvwojcik.vitamins.data.dto.VitaminDTO;
 import pl.mvwojcik.vitamins.data.dto.VitaminInIngredientDTO;
 import pl.mvwojcik.vitamins.data.model.Vitamin;
 import pl.mvwojcik.vitamins.data.model.VitaminInIngredient;
 
-import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
