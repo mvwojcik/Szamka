@@ -11,3 +11,4 @@ FROM openjdk:14-alpine
 COPY --from=build /workspace/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java","-Xmx128m","-jar","app.jar"]
+
