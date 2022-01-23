@@ -1,0 +1,26 @@
+version: '3'
+services:
+  szamka-postgres:
+    image: "postgres:9.6-alpine"
+    container_name: szamka-postgres
+    volumes:
+    - szamka-data:/var/lib/postgresql/data
+    ports:
+    - 5432:5432
+    environment:
+      - POSTGRES_DB:szamka
+      - POSTGRES_USER:postgres
+      - POSTGRES_PASSWORD:postgres
+
+  szamka-backend:
+    build: .
+    environment:
+      - DB_SERVER=szamka-postgres
+    ports:
+    - 8080:8080
+    links:
+      - szamka-postgres
+
+
+volumes:
+  szamka-data:
