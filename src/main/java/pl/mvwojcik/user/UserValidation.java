@@ -10,10 +10,10 @@ import pl.mvwojcik.utils.ValidationUtils;
 public class UserValidation {
 
 
-    public static Either<ErrorResponse, User> UsernameValidation(User user, Authentication authentication) {
+    public static Validation<ErrorResponse, UserRegistrationDTO> validateUsername(UserRegistrationDTO user) {
         return user.getUsername() != null && user.getUsername().isBlank() ?
-                Either.right(user) :
-                Either.left(ErrorConstants.userAttemptedAccess(user.getUsername()));
+                Validation.valid(user) :
+                Validation.invalid(ErrorConstants.userAttemptedAccess(user.getUsername()));
     }
 
     public static Either<ErrorResponse, User> matchingUsernameValidation(User user, Authentication authentication) {
@@ -42,8 +42,8 @@ public class UserValidation {
     }
 
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUserRegistration(UserRegistrationDTO user) {
-        return Validation.combine(validateUserHeight(user), validateUserWeight(user), validateUserKcal(user))
-                .ap((a, b, c) -> user)
+        return Validation.combine(validateUsername(user),validateUserHeight(user), validateUserWeight(user), validateUserKcal(user))
+                .ap((a, b, c, d) -> user)
                 .mapError(ValidationUtils.mapErrors);
     }
 }
