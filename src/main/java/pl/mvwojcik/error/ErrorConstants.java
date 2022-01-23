@@ -14,7 +14,7 @@ public interface ErrorConstants {
     static ErrorResponse allergenExists(String name) {
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT)
-                .message("Allergen already exists:" + name)
+                .message("Allergen already exists: " + name)
                 .build();
     }
 
@@ -28,7 +28,7 @@ public interface ErrorConstants {
     static ErrorResponse ingredientExists(String name) {
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT)
-                .message("Ingredient already exists:" + name)
+                .message("Ingredient already exists: " + name)
                 .build();
     }
 
@@ -64,7 +64,7 @@ public interface ErrorConstants {
     static ErrorResponse recipeExists(String name) {
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT)
-                .message("Recipe already exists:" + name)
+                .message("Recipe already exists: " + name)
                 .build();
     }
 
@@ -92,7 +92,7 @@ public interface ErrorConstants {
     static ErrorResponse dietPlanExists(String name) {
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT)
-                .message("DietPlan already exists:" + name)
+                .message("DietPlan already exists: " + name)
                 .build();
     }
 
@@ -125,6 +125,13 @@ public interface ErrorConstants {
                 .build();
     }
 
+    static ErrorResponse userUsernameNotValid(String username) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.BAD_REQUEST)
+                .message("Username value not valid: " + username)
+                .build();
+    }
+
     static ErrorResponse userWeightNotValid(Double weight) {
         return ErrorResponse.builder()
                 .status(HttpStatus.BAD_REQUEST)
@@ -149,7 +156,7 @@ public interface ErrorConstants {
     static ErrorResponse userExists(String username) {
         return ErrorResponse.builder()
                 .status(HttpStatus.CONFLICT)
-                .message("User already exists" + username)
+                .message("User already exists: " + username)
                 .build();
     }
 

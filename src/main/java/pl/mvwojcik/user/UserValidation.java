@@ -8,11 +8,20 @@ import pl.mvwojcik.error.ErrorResponse;
 import pl.mvwojcik.utils.ValidationUtils;
 
 public class UserValidation {
+
+
+    public static Either<ErrorResponse, User> UsernameValidation(User user, Authentication authentication) {
+        return user.getUsername() != null && user.getUsername().isBlank() ?
+                Either.right(user) :
+                Either.left(ErrorConstants.userAttemptedAccess(user.getUsername()));
+    }
+
     public static Either<ErrorResponse, User> matchingUsernameValidation(User user, Authentication authentication) {
         return user.getUsername().equals(authentication.getName()) ?
                 Either.right(user) :
                 Either.left(ErrorConstants.userAttemptedAccess(user.getUsername()));
     }
+
 
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUserWeight(UserRegistrationDTO user) {
         return user.getWeight() == null || user.getWeight() < 0 || user.getWeight() > 1000 ?
