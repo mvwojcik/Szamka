@@ -10,8 +10,8 @@ import pl.mvwojcik.utils.ValidationUtils;
 public class UserValidation {
     public static Either<ErrorResponse, User> matchingUsernameValidation(User user, Authentication authentication) {
         return user.getUsername().equals(authentication.getName()) ?
-                Either.left(ErrorConstants.userAttemptedAccess(user.getUsername())) :
-                Either.right(user);
+                Either.right(user) :
+                Either.left(ErrorConstants.userAttemptedAccess(user.getUsername()));
     }
 
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUserWeight(UserRegistrationDTO user) {
@@ -21,7 +21,7 @@ public class UserValidation {
     }
 
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUserHeight(UserRegistrationDTO user) {
-        return user.getHeight() == null || user.getHeight() < 0.0 || user.getHeight() > 500?
+        return user.getHeight() == null || user.getHeight() < 0.0 || user.getHeight() > 500 ?
                 Validation.invalid(ErrorConstants.userHeightNotValid(user.getHeight())) :
                 Validation.valid(user);
     }
