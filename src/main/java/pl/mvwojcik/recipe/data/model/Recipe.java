@@ -2,7 +2,6 @@ package pl.mvwojcik.recipe.data.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.mvwojcik.plan.data.model.DietPlanRecipe;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -57,8 +56,6 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", orphanRemoval = true)
     private Set<RecipeIngredient> recipeIngredients;
 
-    @OneToMany(mappedBy = "recipe", orphanRemoval = true)
-    private Set<DietPlanRecipe> recipeDietPlans;
 
 
     public Recipe(String name, String shortDescription, String description,
@@ -71,16 +68,7 @@ public class Recipe {
         this.recipeIngredients = recipeIngredients.stream()
                 .map(recipeIngredient -> new RecipeIngredient(recipeIngredient.getIngredient(), this, recipeIngredient.getAmount()))
                 .collect(Collectors.toSet());
-        recipeDietPlans = new HashSet<>();
     }
-
-    public void addToDietPlans(DietPlanRecipe dietPlanRecipe) {
-        if (recipeDietPlans == null) {
-            recipeDietPlans = new HashSet<>();
-        }
-        this.recipeDietPlans.add(dietPlanRecipe);
-    }
-
     public static Builder builder() {
         return new Builder();
     }

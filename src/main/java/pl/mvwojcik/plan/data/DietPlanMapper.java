@@ -4,10 +4,8 @@ import pl.mvwojcik.ingredient.data.IngredientMapper;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.plan.data.dto.DietPlanDTO;
 import pl.mvwojcik.plan.data.dto.DietPlanIngredientDTO;
-import pl.mvwojcik.plan.data.dto.DietPlanRecipeDTO;
 import pl.mvwojcik.plan.data.model.DietPlan;
 import pl.mvwojcik.plan.data.model.DietPlanIngredient;
-import pl.mvwojcik.plan.data.model.DietPlanRecipe;
 import pl.mvwojcik.recipe.data.RecipeMapper;
 import pl.mvwojcik.recipe.data.model.Recipe;
 import pl.mvwojcik.vitamins.data.model.Vitamin;
@@ -27,13 +25,6 @@ public class DietPlanMapper {
                 .build();
     }
 
-    public static DietPlanRecipeDTO mapToDTO(DietPlanRecipe dietPlanRecipe, Set<Vitamin> vitamins) {
-        return DietPlanRecipeDTO.builder()
-                .amount(dietPlanRecipe.getAmount())
-                .recipe(RecipeMapper.mapRecipeToRecipeDTO(dietPlanRecipe.getRecipe(), vitamins))
-                .mealTime(dietPlanRecipe.getMealTime())
-                .build();
-    }
 
     public static DietPlanDTO mapToDTO(DietPlan dietPlan, Set<Vitamin> vitamins) {
         return DietPlanDTO.builder()
@@ -44,15 +35,10 @@ public class DietPlanMapper {
                         .stream()
                         .map(d -> DietPlanMapper.mapToDTO(d, vitamins))
                         .collect(Collectors.toList()))
-                .recipes(dietPlan.getRecipes()
-                        .stream()
-                        .map(d -> DietPlanMapper.mapToDTO(d, vitamins))
-                        .collect(Collectors.toList()))
                 .build();
     }
 
-    public static DietPlan map(DietPlanDTO dietPlanDTO, List<Ingredient> ingredients,
-                               List<Recipe> recipes) {
+    public static DietPlan map(DietPlanDTO dietPlanDTO, List<Ingredient> ingredients) {
 
 
         Function<DietPlanIngredientDTO, Ingredient> getIngredientForName = dietPlanIngredient ->
@@ -61,16 +47,6 @@ public class DietPlanMapper {
                         .findFirst()
                         .get();
 
-        Function<DietPlanRecipeDTO, Recipe> getRecipeForName = dietPlanRecipe ->
-                recipes.stream()
-                        .filter(recipe -> recipe.getName().equalsIgnoreCase(dietPlanRecipe.getRecipeName()))
-                        .findFirst()
-                        .get();
-
-        Set<DietPlanRecipe> recipeList = dietPlanDTO.getRecipes()
-                .stream()
-                .map(recipe -> new DietPlanRecipe(recipe.getMealTime(), recipe.getAmount(), getRecipeForName.apply(recipe)))
-                .collect(Collectors.toSet());
 
 
         Set<DietPlanIngredient> ingredientList = dietPlanDTO.getIngredients()
@@ -83,17 +59,14 @@ public class DietPlanMapper {
                 .name(dietPlanDTO.getName())
                 .description(dietPlanDTO.getDescription())
                 .ingredients(ingredientList)
-                .recipes(recipeList)
                 .build();
     }
 
-    public static DietPlan map(DietPlanDTO dietPlanDTO, Set<DietPlanIngredient> ingredients,
-                               Set<DietPlanRecipe> recipes) {
+    public static DietPlan map(DietPlanDTO dietPlanDTO, Set<DietPlanIngredient> ingredients) {
         return DietPlan.builder()
                 .name(dietPlanDTO.getName())
                 .description(dietPlanDTO.getDescription())
                 .ingredients(ingredients)
-                .recipes(recipes)
                 .build();
     }
 

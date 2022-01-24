@@ -2,6 +2,7 @@ package pl.mvwojcik.plan;
 
 
 import io.vavr.Tuple;
+import io.vavr.Tuple2;
 import io.vavr.Tuple3;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
@@ -62,7 +63,7 @@ public class DietPlanService {
         return validator.runAllergenValidation(dietPlan)
                 .toEither()
                 .flatMap(this::applyIngredientsAndRecipes)
-                .map(tuple -> DietPlanMapper.map(tuple._1, tuple._2, tuple._3))
+                .map(tuple -> DietPlanMapper.map(tuple._1, tuple._2))
                 .map(this::save)
                 .map(d -> DietPlanMapper.mapToDTO(d, vitaminsService.getAll()))
                 .fold(Function.identity(), diet -> new ContentResponse(HttpStatus.CREATED, diet));
@@ -86,11 +87,10 @@ public class DietPlanService {
         return dietPlan;
     }
 
-    private Either<ErrorResponse, Tuple3<DietPlanDTO, List<Ingredient>, List<Recipe>>> applyIngredientsAndRecipes(DietPlanDTO dietPlanDTO) {
-        List<Recipe> allRecipesIn = recipesService.findAllRecipesIn(dietPlanDTO.getRecipesName());
+    private Either<ErrorResponse, Tuple2<DietPlanDTO, List<Ingredient>>> applyIngredientsAndRecipes(DietPlanDTO dietPlanDTO) {
         List<Ingredient> allIngredientsIn = ingredientsService.findAllIngredientsIn(dietPlanDTO.getIngredientsName());
-        Tuple3<DietPlanDTO, List<Ingredient>, List<Recipe>> recipeTuple = Tuple.of(dietPlanDTO, allIngredientsIn, allRecipesIn);
-        return (recipeTuple._2.size() != dietPlanDTO.getIngredientsName().size()) && recipeTuple._3.size() != dietPlanDTO.getRecipesName().size() ?
+        Tuple2<DietPlanDTO, List<Ingredient>> recipeTuple = Tuple.of(dietPlanDTO, allIngredientsIn);
+        return (recipeTuple._2.size() != dietPlanDTO.getIngredientsName().size())?
                 Either.left(ErrorConstants.ingredientAmountNotEquals()) :
                 Either.right(recipeTuple);
     }

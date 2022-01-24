@@ -16,13 +16,8 @@ public class DietPlanDTO {
     private Long id;
     private String name;
     private String description;
-    private List<DietPlanRecipeDTO> recipes;
     private List<DietPlanIngredientDTO> ingredients;
 
-    @JsonIgnore
-    public List<String> getRecipesName() {
-        return recipes.stream().map(DietPlanRecipeDTO::getRecipeName).collect(Collectors.toList());
-    }
 
     @JsonIgnore
     public List<String> getIngredientsName() {

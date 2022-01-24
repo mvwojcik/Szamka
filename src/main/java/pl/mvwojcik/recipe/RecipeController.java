@@ -27,6 +27,7 @@ public class RecipeController {
         return ResponseEntity.ok(recipesService.findAll(page));
     }
 
+
     @GetMapping("/{id}")
     public ResponseEntity getOne(@PathVariable Long id) {
         return ResponseEntity.ok(recipesService.findById(id));

@@ -1,9 +1,3 @@
--- INSERT INTO public.users(
---     id, active_level, daily_kcal, height, username, weight)
--- VALUES (7, 7, 4000, 1.80, 'mvwojcik', 73.5),
--- VALUES (8, 2, 3000, 1.72, 'admin', 80.5),
--- VALUES (9, 4, 2500, 1.60, 'ola', 52.5);
-
 INSERT INTO allergens (id, name)
 VALUES (0, 'gluten')
      , (1, 'mleko')
@@ -21,7 +15,7 @@ VALUES (0, 'gluten')
      , (13, 'wieprzowina')
      , (14, 'kurczak')
      , (15, 'warzywa')
-     ;
+;
 
 
 INSERT INTO public.ingredients(id, carbohydrates, fat, kcal, proteins, name, unit)
@@ -63,7 +57,18 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
        (36, 40.6, 11.6, 361, 8.9, 'pieprz cayenne', 'G100'),
        (37, 40.6, 11.6, 361, 8.9, 'bazylia', 'G100'),
        (38, 40.6, 11.6, 361, 8.9, 'oregano', 'G100'),
-       (39, 1.6, 0.6, 5, 0.5, 'sól', 'G100');
+       (39, 1.6, 0.6, 5, 0.5, 'sól', 'G100'),
+       (40, 40.5, 0.6, 250, 0.5, 'płatki kukurydziane', 'G100'),
+       (41, 6.5, 70.5, 800, 8.5, 'chia', 'G100' ),
+       (42, 41.1, 1.5, 60, 0.4, 'wafle ryżowe', 'G100'),
+       (43, 32.5, 1.5, 60, 0.4, 'Szpinak', 'G100'),
+       (44, 29.1, 1.5, 60, 0.4, 'Jarmuż', 'G100'),
+       (45, 27.5, 1.5, 60, 0.4, 'Rukola', 'G100'),
+       (46, 47.1, 1.5, 60, 0.4, 'Jabłko', 'G100'),
+       (47, 45.1, 1.5, 60, 0.4, 'Maliny', 'G100'),
+       (48, 31.1, 1.5, 60, 0.4, 'Imbir', 'G100'),
+       (49, 12.1, 1.5, 60, 60.4, 'Białko WPC', 'G100');
+       ;
 
 
 INSERT INTO public.ingredient_allergen(ingredient_id, allergen_id)
@@ -72,41 +77,41 @@ VALUES (1, 4),
        (3, 4),
        (4, 4),
        (5, 4),
-       (6,1),
-       (6,2),
-       (6,3),
-       (7,1),
-       (7,2),
-       (7,3),
-       (8,1),
-       (8,3),
-       (9,7),
-       (10,1),
-       (10,2),
-       (10,3),
-       (11,1),
-       (11,3),
-       (12,10),
-       (12,11),
-       (13,10),
-       (13,13),
-       (14,10),
-       (14,14),
-       (15,7),
-       (16,7),
-       (17,7),
-       (18,7),
-       (19,8),
-       (20,7),
-       (21,15),
-       (22,15),
-       (23,15),
-       (24,15),
-       (25,15),
-       (26,15),
-       (27,15),
-       (28,15),
-       (29,15);
+       (6, 1),
+       (6, 2),
+       (6, 3),
+       (7, 1),
+       (7, 2),
+       (7, 3),
+       (8, 1),
+       (8, 3),
+       (9, 7),
+       (10, 1),
+       (10, 2),
+       (10, 3),
+       (11, 1),
+       (11, 3),
+       (12, 10),
+       (12, 11),
+       (13, 10),
+       (13, 13),
+       (14, 10),
+       (14, 14),
+       (15, 7),
+       (16, 7),
+       (17, 7),
+       (18, 7),
+       (19, 8),
+       (20, 7),
+       (21, 15),
+       (22, 15),
+       (23, 15),
+       (24, 15),
+       (25, 15),
+       (26, 15),
+       (27, 15),
+       (28, 15),
+       (29, 15);
 
 
 INSERT INTO public.recipes(id, description, image_url, name, rating,
@@ -177,26 +182,39 @@ INSERT INTO public.dietplans(id, name, description)
 VALUES (1, 'Pierwszy plan żywieniowy', 'Check it out'),
        (2, 'Plan bez glutenowy', 'Check this out');
 
-INSERT INTO public.diet_plan_recipe(amount, meal_time, recipe_id, diet_plan_id)
-VALUES (1.0, 'BREAKFAST', 2, 1),
-       (0.2, 'BREAKFAST', 1, 1),
-       (1.0, 'DINNER', 3, 1),
-       (1.0, 'BREAKFAST', 4, 2),
-       (1.0, 'SUPPER', 2, 2);
 
-INSERT INTO public.diet_plan_ingredient(amount, meal_time, ingredient_id, diet_plan_id)
-VALUES (0.1, 'BREAKFAST', 5, 1),
-       (2.1, 'DINNER', 2, 1),
-       (1.5, 'DINNER', 6, 2);
+INSERT INTO public.diet_plan_ingredient(diet_plan_id, ingredient_id, meal_time, amount)
+VALUES (1, 8, 'BREAKFAST', 0.4),
+       (1, 40, 'BREAKFAST', 1.2),
+       (1, 41, 'BREAKFAST', 0.2),
+       (1, 20, 'BRUNCH', 0.3),
+       (1, 42, 'BRUNCH', 2.0),
+       (1,4, 'DINNER',1.0),
+       (1,22, 'DINNER',1.5),
+       (1,32,'DINNER', 1.5),
+       (1,15,'SUPPER', 1.0),
+       (1,19,'SUPPER', 1.4),
 
-INSERT INTO public.application_users(id, active, locked,username, password, role)
-VALUES (7, true, false, 'admin','$2a$10$LbZqyY7ZWrIafbJ72ftl2uAzZbmEFX2u50BUrS1LmSOac6DlRgsAK','ADMIN'),--psswd:test
-       (11, true, false, 'mati','$2a$10$ZAB04.jcc5z1r1vBOFiY.u5DLeokr2m9e4u9euuFoiklnYCzHGB5O','USER');--psswd:Passw0rd
+       (2,47,'BREAKFAST', 0.4),
+       (2,43,'BREAKFAST', 0.4),
+       (2,44,'BREAKFAST', 0.4),
+       (2,49,'BEFORE_TRAINING', 0.4),
+       (2,7,'BEFORE_TRAINING', 0.4),
+       (2,12, 'DINNER',1.0),
+       (2,30, 'DINNER',1.5),
+       (2,24,'DINNER', 1.2),
+       (2,15,'SUPPER', 1.0),
+       (2,19,'SUPPER', 1.4);
+       ;
 
-INSERT INTO public.app_users(
-    id, activity_level, daily_kcal, height, username, weight)
+
+INSERT INTO public.application_users(id, active, locked, username, password, role)
+VALUES (7, true, false, 'admin', '$2a$10$LbZqyY7ZWrIafbJ72ftl2uAzZbmEFX2u50BUrS1LmSOac6DlRgsAK', 'ADMIN'),--psswd:test
+       (11, true, false, 'mati', '$2a$10$ZAB04.jcc5z1r1vBOFiY.u5DLeokr2m9e4u9euuFoiklnYCzHGB5O', 'USER');--psswd:Passw0rd
+
+INSERT INTO public.app_users(id, activity_level, daily_kcal, height, username, weight)
 VALUES (7, 3, 3500, 220, 'admin', 120.5),
-       (8,8,4000,183,'mati',73.5);
+       (8, 8, 4000, 183, 'mati', 73.5);
 
 -- INSERT INTO public.diet_plan_user(
 --     fk_dietplan, fk_user)
