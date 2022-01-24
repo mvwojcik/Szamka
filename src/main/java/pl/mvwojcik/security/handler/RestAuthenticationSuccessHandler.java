@@ -29,7 +29,7 @@ public class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         String token = JWT
                 .create()
                 .withSubject(principal.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + 100000L))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 86400000L))
                 .sign(Algorithm.HMAC256(secret));
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
