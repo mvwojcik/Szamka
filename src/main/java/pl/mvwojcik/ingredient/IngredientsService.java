@@ -113,7 +113,7 @@ public final class IngredientsService {
     }
 
     public ServiceResponse interactiveSearch(String word, IngredientSearchDTO searchDTO) {
-        List<IngredientDTO> collect = ingredientsRepository.customSelect(searchDTO.getSkipAllergens())
+        List<IngredientDTO> collect = ingredientsRepository.customSelect(searchDTO.getSkipAllergens(),word)
                 .stream().map(IngredientMapper::mapIngredientToIngredientDTOWithoutVitamins)
                 .collect(Collectors.toList());
         return new ContentResponse<>(HttpStatus.OK, collect);

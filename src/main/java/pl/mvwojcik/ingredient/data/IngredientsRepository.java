@@ -25,8 +25,8 @@ public interface IngredientsRepository extends PagingAndSortingRepository<Ingred
     List<Ingredient> findByNameInIgnoreCase(List<String> ingredients);
 
     @EntityGraph(value = "graph.ingredientAllergens", type = EntityGraph.EntityGraphType.FETCH)
-    @Query(value = "SELECT distinct i from  Ingredient i where not exists (SELECT 1 FROM Allergen a WHERE i MEMBER OF a.ingredients and a.name in ?1)")
-    List<Ingredient> customSelect(List<String> allergens);
+    @Query(value = "SELECT distinct i from  Ingredient i where UPPER(i.name) LIKE CONCAT('%',UPPER(?2),'%') and not exists (SELECT 1 FROM Allergen a WHERE i MEMBER OF a.ingredients and a.name in ?1)")
+    List<Ingredient> customSelect(List<String> allergens, String word);
 
 
 //    @Override
