@@ -27,6 +27,11 @@ public final class AllergensController {
         return allergensService.getAll(page).toResponseEntity();
     }
 
+    @GetMapping("{word}")
+    public final ResponseEntity getAll(@PathVariable String word) {
+        return allergensService.interactiveSearch(word).toResponseEntity();
+    }
+
     @PostMapping
     public final ResponseEntity create(@RequestBody AllergenDTO allergenDTO) {
         return allergensService.createAllergen(allergenDTO).toResponseEntity();

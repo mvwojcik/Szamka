@@ -19,4 +19,5 @@ public interface AllergensRepository extends JpaRepository<Allergen, Long> {
     Optional<Allergen> findById(Long id);
 
 
+    Set<Allergen> findByNameContaining(String word);
 }
