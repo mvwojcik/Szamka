@@ -15,6 +15,7 @@ import pl.mvwojcik.error.ErrorConstants;
 import pl.mvwojcik.error.ErrorResponse;
 import pl.mvwojcik.ingredient.data.IngredientBuilder;
 import pl.mvwojcik.ingredient.data.IngredientMapper;
+import pl.mvwojcik.ingredient.data.IngredientSearchDTO;
 import pl.mvwojcik.ingredient.data.IngredientsRepository;
 import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
@@ -25,6 +26,7 @@ import pl.mvwojcik.vitamins.data.model.Vitamin;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public final class IngredientsService {
@@ -77,7 +79,8 @@ public final class IngredientsService {
     }
 
     public ContentResponse<Page<IngredientProjection>> getAll(int page) {
-        return new ContentResponse<>(HttpStatus.OK, ingredientsRepository.findAllBy(PageRequest.of(page,10)));
+        return new ContentResponse<>(HttpStatus.OK, ingredientsRepository
+        .findAllBy(PageRequest.of(page, 10)));
     }
 
 //    public ContentResponse<Page<IngredientProjection>> getAllNotContaining(List<AllergenDTO> allergens) {
@@ -109,4 +112,10 @@ public final class IngredientsService {
         return Either.right(ingredient);
     }
 
+    public ServiceResponse interactiveSearch(String word, IngredientSearchDTO searchDTO) {
+        List<IngredientDTO> collect = ingredientsRepository.customSelect(searchDTO.getSkipAllergens())
+                .stream().map(IngredientMapper::mapIngredientToIngredientDTOWithoutVitamins)
+                .collect(Collectors.toList());
+        return new ContentResponse<>(HttpStatus.OK, collect);
+    }
 }

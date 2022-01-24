@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import pl.mvwojcik.ingredient.data.IngredientSearchDTO;
 import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 
 @RestController
@@ -28,6 +29,11 @@ public final class IngredientsController {
     @GetMapping("/{id}")
     public ResponseEntity findIngredientByID(@PathVariable Long id) {
         return ingredientsService.findByID(id).toResponseEntity();
+    }
+
+    @GetMapping("/search/{word}")
+    public ResponseEntity interactiveSearch(@PathVariable String word, @RequestBody IngredientSearchDTO searchDTO) {
+        return ingredientsService.interactiveSearch(word, searchDTO).toResponseEntity();
     }
 
     @PostMapping
