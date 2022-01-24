@@ -9,6 +9,7 @@ import pl.mvwojcik.vitamins.data.dto.VitaminInIngredientDTO;
 import pl.mvwojcik.vitamins.data.model.Vitamin;
 import pl.mvwojcik.vitamins.data.model.VitaminInIngredient;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
@@ -31,6 +32,12 @@ public class IngredientMapper {
                 .vitamins(ingredient.getVitamins().stream()
                         .map(VitaminMapper::mapToDTO)
                         .collect(Collectors.toList()))
+                .build();
+    }
+
+    public static IngredientDTO mapIngredientToIngredientDTOWithoutVitamins(Ingredient ingredient) {
+        return mapBaseIngredient(ingredient)
+                .vitamins(List.of())
                 .build();
     }
 

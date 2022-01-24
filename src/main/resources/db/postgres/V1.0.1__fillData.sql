@@ -15,10 +15,13 @@ VALUES (0, 'gluten')
      , (7, 'orzechy')
      , (8, 'owoce')
      , (9, 'skorupiaki')
-     , (10, 'wołowina')
-     , (11, 'baranina')
-     , (12, 'wieprzowina')
-     , (13, 'mięso');
+     , (10, 'mięso')
+     , (11, 'wołowina')
+     , (12, 'baranina')
+     , (13, 'wieprzowina')
+     , (14, 'kurczak')
+     , (15, 'warzywa')
+     ;
 
 
 INSERT INTO public.ingredients(id, carbohydrates, fat, kcal, proteins, name, unit)
@@ -39,8 +42,8 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
        (15, 60.6, 11.6, 361, 8.9, 'migdał', 'G100'),
        (16, 60.6, 11.6, 361, 8.9, 'pistacja', 'G100'),
        (17, 60.6, 11.6, 361, 8.9, 'orzech włoski', 'G100'),
-       (18, 60.6, 11.6, 361, 8.9, 'daktyl', 'G100'),
-       (19, 60.6, 11.6, 361, 8.9, 'orzech laskowy', 'G100'),
+       (18, 60.6, 11.6, 361, 8.9, 'orzech laskowy', 'G100'),
+       (19, 60.6, 11.6, 361, 8.9, 'daktyl', 'G100'),
        (20, 60.6, 11.6, 361, 8.9, 'masło orzechowe', 'G100'),
        (21, 21.6, 11.6, 361, 8.9, 'pomidor', 'G100'),
        (22, 21.6, 11.6, 361, 8.9, 'brokuł', 'G100'),
@@ -64,11 +67,46 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
 
 
 INSERT INTO public.ingredient_allergen(ingredient_id, allergen_id)
-VALUES (1, 3),
-       (2, 1),
-       (2, 2),
+VALUES (1, 4),
+       (2, 4),
        (3, 4),
-       (4, 3);
+       (4, 4),
+       (5, 4),
+       (6,1),
+       (6,2),
+       (6,3),
+       (7,1),
+       (7,2),
+       (7,3),
+       (8,1),
+       (8,3),
+       (9,7),
+       (10,1),
+       (10,2),
+       (10,3),
+       (11,1),
+       (11,3),
+       (12,10),
+       (12,11),
+       (13,10),
+       (13,13),
+       (14,10),
+       (14,14),
+       (15,7),
+       (16,7),
+       (17,7),
+       (18,7),
+       (19,8),
+       (20,7),
+       (21,15),
+       (22,15),
+       (23,15),
+       (24,15),
+       (25,15),
+       (26,15),
+       (27,15),
+       (28,15),
+       (29,15);
 
 
 INSERT INTO public.recipes(id, description, image_url, name, rating,

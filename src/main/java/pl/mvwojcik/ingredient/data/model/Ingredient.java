@@ -38,10 +38,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @NamedEntityGraph(
+        name = "graph.ingredientAllergens",
+        attributeNodes = @NamedAttributeNode(value = "allergens"))
+@NamedEntityGraph(
         name = "graph.ingredientVitamins",
         attributeNodes = {@NamedAttributeNode(value = "allergens"), @NamedAttributeNode(value = "vitamins", subgraph = "subgraph.vitamin")},
-        subgraphs = @NamedSubgraph(name = "subgraph.vitamin", attributeNodes = @NamedAttributeNode(value = "vitamin"))
-)
+        subgraphs = @NamedSubgraph(name = "subgraph.vitamin", attributeNodes = @NamedAttributeNode(value = "vitamin")))
 @NamedEntityGraph(
         name = "graph.ingredientRecipesVitamins",
         attributeNodes = {
