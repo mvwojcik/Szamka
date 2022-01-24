@@ -1,5 +1,6 @@
 package pl.mvwojcik.error;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @ControllerAdvice
+@Slf4j
 public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = UsernameNotFoundException.class)
     public ResponseEntity<String> handleUsernameNotFoundException(final UsernameNotFoundException exception) {
@@ -30,6 +32,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
         exception.getBindingResult()
                 .getFieldErrors()
                 .forEach(error -> errors.put(error.getField(), FieldErrorDto.fromFieldError(error)));
+        log.error("method argument not valid :" + exception.getMessage());
 
         return ResponseEntity.badRequest()
                 .body(errors);
@@ -37,11 +40,14 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({IllegalArgumentException.class})
     protected ResponseEntity<Object> handleIllegalArgumentException(Exception ex, WebRequest request) {
+        log.error("Illegal arg exception:" + ex.getMessage());
         return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_ACCEPTABLE, request);
     }
 
     @ExceptionHandler({Exception.class})
     protected ResponseEntity<Object> handleGeneralException(Exception ex, WebRequest request) {
+        log.error("Unhandled exception:" + ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Processing error");
     }
 
