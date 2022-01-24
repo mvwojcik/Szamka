@@ -39,8 +39,8 @@ public class DietPlanValidator {
     }
 
     public Validation<ErrorResponse, DietPlanDTO> checkIfDietPlanHasIngredients(DietPlanDTO dietPlan) {
-        return dietPlan.getIngredients().size() < 1 && dietPlan.getRecipes().size() < 1 ?
-                Validation.invalid(ErrorConstants.dietPlanNotValid("DietPlan should have ingredients or recipes inside")) :
+        return dietPlan.getIngredients().size() < 1 ?
+                Validation.invalid(ErrorConstants.dietPlanNotValid("DietPlan should have ingredients inside")) :
                 Validation.valid(dietPlan);
     }
 

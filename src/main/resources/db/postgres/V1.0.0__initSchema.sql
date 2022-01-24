@@ -30,16 +30,9 @@ create table diet_plan_ingredient (
                                       meal_time varchar(255),
                                       diet_plan_id int8 not null,
                                       ingredient_id int8 not null,
-                                      primary key (diet_plan_id, ingredient_id)
+                                      primary key (diet_plan_id, ingredient_id, meal_time)
 );
 
-create table diet_plan_recipe (
-                                  amount float8,
-                                  meal_time varchar(255),
-                                  diet_plan_id int8 not null,
-                                  recipe_id int8 not null,
-                                  primary key (diet_plan_id, recipe_id)
-);
 create table dietplans (
                            id int8 not null,
                            access_type int4,
@@ -113,16 +106,6 @@ alter table diet_plan_ingredient
     add constraint FKal3qwu275r9jhsmixqhsxyo4o
         foreign key (ingredient_id)
             references ingredients;
-
-alter table diet_plan_recipe
-    add constraint FK9prcvfyb328k9rnrfl7x7j0em
-        foreign key (diet_plan_id)
-            references dietplans;
-
-alter table diet_plan_recipe
-    add constraint FKqi9ijrnxji9u3x9h83ug46cya
-        foreign key (recipe_id)
-            references recipes;
 
 alter table dietplans
     add constraint FK46oioovqbfc4qltmugin8ks8l

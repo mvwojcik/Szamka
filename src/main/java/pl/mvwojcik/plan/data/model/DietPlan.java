@@ -30,17 +30,16 @@ import java.util.stream.Collectors;
 @NamedEntityGraph(
         name = "graph.dietplan",
         attributeNodes = {
-                @NamedAttributeNode(value = "recipes", subgraph = "subgraph.dietPlanRecipes"),
                 @NamedAttributeNode(value = "ingredients", subgraph = "subgraph.dietPlanIngredients")
         },
         subgraphs = {
-                @NamedSubgraph(name = "subgraph.dietPlanRecipes", attributeNodes = {
-                        @NamedAttributeNode(value = "recipe", subgraph = "subgraph.recipes")}),
-                @NamedSubgraph(name = "subgraph.recipes", attributeNodes = {
-                        @NamedAttributeNode(value = "recipeIngredients", subgraph = "subgraph.recipeIngredient")
-                }),
-                @NamedSubgraph(name = "subgraph.recipeIngredient", attributeNodes = {
-                        @NamedAttributeNode(value = "ingredient", subgraph = "subgraph.ingredient")}),
+//                @NamedSubgraph(name = "subgraph.dietPlanRecipes", attributeNodes = {
+//                        @NamedAttributeNode(value = "recipe", subgraph = "subgraph.recipes")}),
+//                @NamedSubgraph(name = "subgraph.recipes", attributeNodes = {
+//                        @NamedAttributeNode(value = "recipeIngredients", subgraph = "subgraph.recipeIngredient")
+//                }),
+//                @NamedSubgraph(name = "subgraph.recipeIngredient", attributeNodes = {
+//                        @NamedAttributeNode(value = "ingredient", subgraph = "subgraph.ingredient")}),
                 @NamedSubgraph(name = "subgraph.ingredient", attributeNodes = {
                         @NamedAttributeNode(value = "allergens"),
                         @NamedAttributeNode(value = "vitamins", subgraph = "subgraph.vitamins")}),
@@ -64,9 +63,6 @@ public class DietPlan {
     private String description;
 
     @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = CascadeType.ALL)
-    private Set<DietPlanRecipe> recipes;
-
-    @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<DietPlanIngredient> ingredients;
 
     private DietAccessLevel accessType;
@@ -75,30 +71,21 @@ public class DietPlan {
     private User user;
 
 
-    public DietPlan(Long id, String name, String description, Set<DietPlanRecipe> recipes, Set<DietPlanIngredient> ingredients) {
+    public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients) {
         this.id = id;
         this.name = name;
         this.description = description;
-
-        this.recipes = recipes
-                .stream()
-                .map(r -> new DietPlanRecipe(r.getMealTime(), r.getAmount(), r.getRecipe(), this))
-                .collect(Collectors.toSet());
         this.ingredients = ingredients.stream()
                 .map(i -> new DietPlanIngredient(i.getMealTime(), i.getAmount(), i.getIngredient(), this))
                 .collect(Collectors.toSet());
     }
 
-    public DietPlan(Long id, String name, String description, Set<DietPlanRecipe> recipes, Set<DietPlanIngredient> ingredients, DietAccessLevel dietAccessLevel, User user) {
+    public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients, DietAccessLevel dietAccessLevel, User user) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.user = user;
         this.accessType = dietAccessLevel;
-        this.recipes = recipes
-                .stream()
-                .map(r -> new DietPlanRecipe(r.getMealTime(), r.getAmount(), r.getRecipe(), this))
-                .collect(Collectors.toSet());
         this.ingredients = ingredients.stream()
                 .map(i -> new DietPlanIngredient(i.getMealTime(), i.getAmount(), i.getIngredient(), this))
                 .collect(Collectors.toSet());
@@ -123,7 +110,6 @@ public class DietPlan {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", recipes=" + recipes +
                 ", ingredients=" + ingredients +
                 '}';
     }
