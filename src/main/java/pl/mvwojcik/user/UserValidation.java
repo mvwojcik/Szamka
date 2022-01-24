@@ -13,7 +13,7 @@ public class UserValidation {
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUsername(UserRegistrationDTO user) {
         return user.getUsername() != null && user.getUsername().isBlank() ?
                 Validation.valid(user) :
-                Validation.invalid(ErrorConstants.userAttemptedAccess(user.getUsername()));
+                Validation.invalid(ErrorConstants.userUsernameNotValid(user.getUsername()));
     }
 
     public static Either<ErrorResponse, User> matchingUsernameValidation(User user, Authentication authentication) {
