@@ -2,6 +2,7 @@ package pl.mvwojcik.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -15,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 
 @RequiredArgsConstructor
+@Slf4j
 public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final ObjectMapper objectMapper;
@@ -26,6 +28,7 @@ public class JsonObjectAuthenticationFilter extends UsernamePasswordAuthenticati
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+        log.debug(" Connection from: " + request.getRequestURL() );
         try {
             BufferedReader reader = request.getReader();
             StringBuilder sb = new StringBuilder();

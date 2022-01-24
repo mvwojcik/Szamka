@@ -11,9 +11,9 @@ public class UserValidation {
 
 
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUsername(UserRegistrationDTO user) {
-        return user.getUsername() != null && user.getUsername().isBlank() ?
-                Validation.valid(user) :
-                Validation.invalid(ErrorConstants.userUsernameNotValid(user.getUsername()));
+        return user.getUsername() == null || user.getUsername().isBlank() ?
+                Validation.invalid(ErrorConstants.userUsernameNotValid(user.getUsername())) :
+                Validation.valid(user);
     }
 
     public static Either<ErrorResponse, User> matchingUsernameValidation(User user, Authentication authentication) {
@@ -42,7 +42,7 @@ public class UserValidation {
     }
 
     public static Validation<ErrorResponse, UserRegistrationDTO> validateUserRegistration(UserRegistrationDTO user) {
-        return Validation.combine(validateUsername(user),validateUserHeight(user), validateUserWeight(user), validateUserKcal(user))
+        return Validation.combine(validateUsername(user), validateUserHeight(user), validateUserWeight(user), validateUserKcal(user))
                 .ap((a, b, c, d) -> user)
                 .mapError(ValidationUtils.mapErrors);
     }
