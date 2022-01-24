@@ -16,7 +16,9 @@ import pl.mvwojcik.comunication.ServiceResponse;
 import pl.mvwojcik.error.ErrorConstants;
 import pl.mvwojcik.error.ErrorResponse;
 
+import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public final class AllergensService {
@@ -55,6 +57,13 @@ public final class AllergensService {
                 .fold(Function.identity(), a -> new EmptyResponse(HttpStatus.NO_CONTENT));
     }
 
+    public ServiceResponse interactiveSearch(String word) {
+        Set<AllergenDTO> list = repository.findByNameContaining(word)
+                .stream()
+                .map(AllergenMapper::mapAllergenToAllergenDTO)
+                .collect(Collectors.toSet());
+        return new ContentResponse<>(HttpStatus.OK,list);
+    }
     public final Either<ErrorResponse, Allergen> deleteAllergen(Allergen allergen) {
         repository.delete(allergen);
         return Either.right(allergen);
@@ -65,4 +74,5 @@ public final class AllergensService {
                 mapAllergenToAllergenDTO(allergen);
         return new ContentResponse<>(HttpStatus.CREATED, dto);
     }
+
 }
