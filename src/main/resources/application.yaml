@@ -1,5 +1,10 @@
 server:
-  port: ${PORT:8080}
+  port: 443
+  ssl:
+    key-password: '#Haslo123'
+    key-store-password: '#Haslo123'
+    key-store: classpath:keystore.jks
+    key-store-type: pkcs12
 logging:
   file:
     path: /var/log
