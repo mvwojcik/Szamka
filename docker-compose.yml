@@ -17,7 +17,7 @@ services:
     environment:
       - DB_SERVER=szamka-postgres
     ports:
-    - 80:8080
+    - 443:443
     depends_on:
       - szamka-postgres
     links:
