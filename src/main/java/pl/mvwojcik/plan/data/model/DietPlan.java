@@ -11,6 +11,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedAttributeNode;
 import javax.persistence.NamedEntityGraph;
@@ -18,6 +21,7 @@ import javax.persistence.NamedSubgraph;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -33,13 +37,6 @@ import java.util.stream.Collectors;
                 @NamedAttributeNode(value = "ingredients", subgraph = "subgraph.dietPlanIngredients")
         },
         subgraphs = {
-//                @NamedSubgraph(name = "subgraph.dietPlanRecipes", attributeNodes = {
-//                        @NamedAttributeNode(value = "recipe", subgraph = "subgraph.recipes")}),
-//                @NamedSubgraph(name = "subgraph.recipes", attributeNodes = {
-//                        @NamedAttributeNode(value = "recipeIngredients", subgraph = "subgraph.recipeIngredient")
-//                }),
-//                @NamedSubgraph(name = "subgraph.recipeIngredient", attributeNodes = {
-//                        @NamedAttributeNode(value = "ingredient", subgraph = "subgraph.ingredient")}),
                 @NamedSubgraph(name = "subgraph.ingredient", attributeNodes = {
                         @NamedAttributeNode(value = "allergens"),
                         @NamedAttributeNode(value = "vitamins", subgraph = "subgraph.vitamins")}),
@@ -49,7 +46,6 @@ import java.util.stream.Collectors;
                         @NamedAttributeNode(value = "ingredient", subgraph = "subgraph.ingredient")
                 })
         })
-
 public class DietPlan {
 
     @Id
@@ -67,8 +63,8 @@ public class DietPlan {
 
     private DietAccessLevel accessType;
 
-    @ManyToOne
-    private User user;
+    @ManyToMany(mappedBy = "dietPlans")
+    private Set<User> users;
 
 
     public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients) {
@@ -80,11 +76,11 @@ public class DietPlan {
                 .collect(Collectors.toSet());
     }
 
-    public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients, DietAccessLevel dietAccessLevel, User user) {
+    public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients, DietAccessLevel dietAccessLevel, Set<User> users) {
         this.id = id;
         this.name = name;
         this.description = description;
-        this.user = user;
+        this.users = users;
         this.accessType = dietAccessLevel;
         this.ingredients = ingredients.stream()
                 .map(i -> new DietPlanIngredient(i.getMealTime(), i.getAmount(), i.getIngredient(), this))

@@ -32,6 +32,13 @@ public interface ErrorConstants {
                 .build();
     }
 
+    static ErrorResponse ingredientHasId() {
+        return ErrorResponse.builder()
+                .status(HttpStatus.NOT_ACCEPTABLE)
+                .message("Ingredient has id inside ")
+                .build();
+    }
+
     static ErrorResponse ingredientNotValid(String name) {
         return ErrorResponse.builder()
                 .status(HttpStatus.NOT_ACCEPTABLE)

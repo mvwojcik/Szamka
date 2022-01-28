@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
+import pl.mvwojcik.user.User;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -40,6 +41,11 @@ public final class Allergen {
     @JsonIgnore
     @ManyToMany(mappedBy = "allergens")
     private Set<Ingredient> ingredients;
+
+    @ToString.Exclude
+    @JsonIgnore
+    @ManyToMany(mappedBy = "allergens")
+    private Set<User> users;
 
     @Override
     public boolean equals(Object o) {

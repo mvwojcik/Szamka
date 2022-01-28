@@ -20,6 +20,7 @@ import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.plan.data.DietPlanMapper;
 import pl.mvwojcik.plan.data.DietPlanRepository;
 import pl.mvwojcik.plan.data.dto.DietPlanDTO;
+import pl.mvwojcik.plan.data.dto.DietPlanOutputDTO;
 import pl.mvwojcik.plan.data.model.DietPlan;
 import pl.mvwojcik.plan.data.model.DietPlanProjection;
 import pl.mvwojcik.recipe.RecipesService;
@@ -47,14 +48,14 @@ public class DietPlanService {
     }
 
     public Page<DietPlanProjection> getAll(int page) {
-        return repository.findAllBy(PageRequest.of(page,10));
+        return repository.findAllBy(PageRequest.of(page, 10));
     }
 
     public ServiceResponse findById(Long id) {
-        return Option.ofOptional(repository.findById(id))
+        Either<ErrorResponse, DietPlanOutputDTO> map = Option.ofOptional(repository.findById(id))
                 .toEither(ErrorConstants.dietPlanNotFound(id))
-                .map(d -> DietPlanMapper.mapToDTO(d, vitaminsService.getAll()))
-                .map(diet -> new ContentResponse(HttpStatus.OK, diet))
+                .map(d -> DietPlanMapper.mapToDTO2(d, vitaminsService.getAll()));
+        return map.map(diet -> new ContentResponse(HttpStatus.OK, diet))
                 .fold(Function.identity(), Function.identity());
     }
 
@@ -90,7 +91,7 @@ public class DietPlanService {
     private Either<ErrorResponse, Tuple2<DietPlanDTO, List<Ingredient>>> applyIngredientsAndRecipes(DietPlanDTO dietPlanDTO) {
         List<Ingredient> allIngredientsIn = ingredientsService.findAllIngredientsIn(dietPlanDTO.getIngredientsName());
         Tuple2<DietPlanDTO, List<Ingredient>> recipeTuple = Tuple.of(dietPlanDTO, allIngredientsIn);
-        return (recipeTuple._2.size() != dietPlanDTO.getIngredientsName().size())?
+        return (recipeTuple._2.size() != dietPlanDTO.getIngredientsName().size()) ?
                 Either.left(ErrorConstants.ingredientAmountNotEquals()) :
                 Either.right(recipeTuple);
     }
