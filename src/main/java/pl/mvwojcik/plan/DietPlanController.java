@@ -34,6 +34,10 @@ public class DietPlanController {
         return dietPlanService.findById(id).toResponseEntity();
     }
 
+//    @PostMapping("/recipe/{id}")
+//    public ResponseEntity addRecipeToDietPlan(@RequestParam Long recipeId ,@PathVariable Long id) {
+//        //TODO
+//    }
 
     @PostMapping
     public ResponseEntity createDietPlan(@RequestBody DietPlanDTO dietPlanDTO) {

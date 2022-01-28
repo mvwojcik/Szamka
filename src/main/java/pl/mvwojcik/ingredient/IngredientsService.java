@@ -43,7 +43,7 @@ public final class IngredientsService {
     }
 
     public ServiceResponse createIngredient(IngredientDTO ingredientDTO) {
-        return ingredientsValidator.runIngredientValidation(ingredientDTO)
+        return ingredientsValidator.runIngredientCreationValidation(ingredientDTO)
                 .toEither()
                 .map(IngredientBuilder::new)
                 .flatMap(this::findAllergens)
@@ -80,7 +80,7 @@ public final class IngredientsService {
 
     public ContentResponse<Page<IngredientProjection>> getAll(int page) {
         return new ContentResponse<>(HttpStatus.OK, ingredientsRepository
-        .findAllBy(PageRequest.of(page, 10)));
+                .findAllBy(PageRequest.of(page, 10)));
     }
 
 //    public ContentResponse<Page<IngredientProjection>> getAllNotContaining(List<AllergenDTO> allergens) {
@@ -113,9 +113,16 @@ public final class IngredientsService {
     }
 
     public ServiceResponse interactiveSearch(String word, IngredientSearchDTO searchDTO) {
-        List<IngredientDTO> collect = ingredientsRepository.customSelect(searchDTO.getSkipAllergens(),word)
+        List<IngredientDTO> collect = ingredientsRepository.customSelect(searchDTO.getSkipAllergens(), word)
                 .stream().map(IngredientMapper::mapIngredientToIngredientDTOWithoutVitamins)
                 .collect(Collectors.toList());
         return new ContentResponse<>(HttpStatus.OK, collect);
     }
+
+//    public ServiceResponse updateIngredient(Long id, IngredientDTO ingredientDTO) {
+//        ingredientsValidator.runIngredientUpdateValidation(id, ingredientDTO)
+//                .toEither()
+//        .map(IngredientMapper.mapIngredientDTOToIngredient())
+//        ingredientsRepository.save()
+//    }
 }

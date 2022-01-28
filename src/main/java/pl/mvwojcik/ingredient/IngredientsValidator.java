@@ -28,6 +28,18 @@ public class IngredientsValidator {
                 Validation.valid(ingredient);
     }
 
+    public Validation<ErrorResponse, IngredientDTO> checkIfIngredientHasID(IngredientDTO ingredient) {
+        return ingredient.getId() != null ?
+                Validation.invalid(ErrorConstants.ingredientHasId()) :
+                Validation.valid(ingredient);
+    }
+
+    public Validation<ErrorResponse, Long> checkIfIngredientNotExists(Long id) {
+        return this.ingredientsRepository.existsById(id) ?
+                              Validation.valid(id):
+                Validation.invalid(ErrorConstants.ingredientNotFound(id));
+    }
+
     private Validation<ErrorResponse, IngredientDTO> checkIfValuesAreValid(IngredientDTO ingredient) {
         return isInBound.test(ingredient.getFat()) && isInBound.test(ingredient.getProteins())
                 && isInBound.test(ingredient.getCarbohydrates()) ?
@@ -42,11 +54,21 @@ public class IngredientsValidator {
                 Validation.valid(ingredient);
     }
 
-    public Validation<ErrorResponse, IngredientDTO> runIngredientValidation(IngredientDTO ingredient) {
+    public Validation<ErrorResponse, IngredientDTO> runIngredientCreationValidation(IngredientDTO ingredient) {
         return Validation.combine(
+                checkIfIngredientHasID(ingredient),
                 checkIfIngredientIsNotNull(ingredient),
                 checkIfValuesAreValid(ingredient),
                 checkIfIngredientExists(ingredient))
+                .ap((a, b, c, d) -> ingredient)
+                .mapError(ValidationUtils.mapErrors);
+    }
+
+    public Validation<ErrorResponse, IngredientDTO> runIngredientUpdateValidation(Long id, IngredientDTO ingredient) {
+        return Validation.combine(
+                checkIfIngredientIsNotNull(ingredient),
+                checkIfValuesAreValid(ingredient),
+                checkIfIngredientNotExists(id))
                 .ap((a, b, c) -> ingredient)
                 .mapError(ValidationUtils.mapErrors);
     }

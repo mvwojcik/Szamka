@@ -59,7 +59,7 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
        (38, 40.6, 11.6, 361, 8.9, 'oregano', 'G100'),
        (39, 1.6, 0.6, 5, 0.5, 'sól', 'G100'),
        (40, 40.5, 0.6, 250, 0.5, 'płatki kukurydziane', 'G100'),
-       (41, 6.5, 70.5, 800, 8.5, 'chia', 'G100' ),
+       (41, 6.5, 70.5, 800, 8.5, 'chia', 'G100'),
        (42, 41.1, 1.5, 60, 0.4, 'wafle ryżowe', 'G100'),
        (43, 32.5, 1.5, 60, 0.4, 'Szpinak', 'G100'),
        (44, 29.1, 1.5, 60, 0.4, 'Jarmuż', 'G100'),
@@ -68,7 +68,7 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
        (47, 45.1, 1.5, 60, 0.4, 'Maliny', 'G100'),
        (48, 31.1, 1.5, 60, 0.4, 'Imbir', 'G100'),
        (49, 12.1, 1.5, 60, 60.4, 'Białko WPC', 'G100');
-       ;
+;
 
 
 INSERT INTO public.ingredient_allergen(ingredient_id, allergen_id)
@@ -165,18 +165,18 @@ VALUES (1, 0.0008, 'Witamina A', 'G1', 'VITAMIN'),
 
 
 INSERT INTO public.vitamin_in_ingredient(ingredient_id, vitamin_id, amount)
-VALUES (1, 2, 0.4),
-       (1, 4, 9.8),
-       (1, 5, 0.9),
-       (1, 6, 65),
-       (1, 9, 0.5),
-       (1, 18, 16),
-       (1, 23, 243),
-       (2, 5, 9),
-       (2, 6, 15),
-       (2, 9, 0.7),
-       (2, 18, 1),
-       (2, 23, 23);
+VALUES (8, 2, 0.4),
+       (8, 4, 9.8),
+       (8, 5, 0.9),
+       (8, 6, 65),
+       (8, 9, 0.5),
+       (8, 18, 16),
+       (8, 23, 243),
+       (40, 5, 9),
+       (40, 6, 15),
+       (40, 9, 0.7),
+       (40, 18, 1),
+       (40, 23, 23);
 
 INSERT INTO public.dietplans(id, name, description)
 VALUES (1, 'Pierwszy plan żywieniowy', 'Check it out'),
@@ -189,23 +189,23 @@ VALUES (1, 8, 'BREAKFAST', 0.4),
        (1, 41, 'BREAKFAST', 0.2),
        (1, 20, 'BRUNCH', 0.3),
        (1, 42, 'BRUNCH', 2.0),
-       (1,4, 'DINNER',1.0),
-       (1,22, 'DINNER',1.5),
-       (1,32,'DINNER', 1.5),
-       (1,15,'SUPPER', 1.0),
-       (1,19,'SUPPER', 1.4),
+       (1, 4, 'DINNER', 1.0),
+       (1, 22, 'DINNER', 1.5),
+       (1, 32, 'DINNER', 1.5),
+       (1, 15, 'SUPPER', 1.0),
+       (1, 19, 'SUPPER', 1.4),
 
-       (2,47,'BREAKFAST', 0.4),
-       (2,43,'BREAKFAST', 0.4),
-       (2,44,'BREAKFAST', 0.4),
-       (2,49,'BEFORE_TRAINING', 0.4),
-       (2,7,'BEFORE_TRAINING', 0.4),
-       (2,12, 'DINNER',1.0),
-       (2,30, 'DINNER',1.5),
-       (2,24,'DINNER', 1.2),
-       (2,15,'SUPPER', 1.0),
-       (2,19,'SUPPER', 1.4);
-       ;
+       (2, 47, 'BREAKFAST', 0.4),
+       (2, 43, 'BREAKFAST', 0.4),
+       (2, 44, 'BREAKFAST', 0.4),
+       (2, 49, 'BEFORE_TRAINING', 0.4),
+       (2, 7, 'BEFORE_TRAINING', 0.4),
+       (2, 12, 'DINNER', 1.0),
+       (2, 30, 'DINNER', 1.5),
+       (2, 24, 'DINNER', 1.2),
+       (2, 15, 'SUPPER', 1.0),
+       (2, 19, 'SUPPER', 1.4);
+;
 
 
 INSERT INTO public.application_users(id, active, locked, username, password, role)
@@ -214,10 +214,12 @@ VALUES (7, true, false, 'admin', '$2a$10$LbZqyY7ZWrIafbJ72ftl2uAzZbmEFX2u50BUrS1
 
 INSERT INTO public.app_users(id, activity_level, daily_kcal, height, username, weight)
 VALUES (7, 3, 3500, 220, 'admin', 120.5),
-       (8, 8, 4000, 183, 'mati', 73.5);
-
--- INSERT INTO public.diet_plan_user(
---     fk_dietplan, fk_user)
--- VALUES (1, 7),
--- VALUES (2, 7),
--- VALUES (1, 8),
+       (11, 8, 4000, 183, 'mati', 73.5);
+INSERT INTO public.users_allergen(user_id, allergen_id)
+VALUES (11, 0),
+       (11, 3),
+       (11, 8),
+       (7, 0);
+INSERT INTO public.user_diet(
+    user_id, diet_plan_id)
+VALUES (11, 1);

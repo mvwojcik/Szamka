@@ -3,6 +3,9 @@ package pl.mvwojcik.user;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import pl.mvwojcik.allergen.data.AllergenDTO;
+
+import java.util.Set;
 
 @Builder
 @AllArgsConstructor
@@ -17,4 +20,6 @@ public class UserDTO {
     private Integer dailyKcal;
 
     private Integer activityLevel;
+
+    private Set<AllergenDTO> allergens;
 }

@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,6 +41,11 @@ public final class IngredientsController {
     public ResponseEntity createIngredient(@RequestBody IngredientDTO ingredientDTO) {
         return ingredientsService.createIngredient(ingredientDTO).toResponseEntity();
     }
+
+//    @PutMapping("/{id}")
+//    public ResponseEntity updateIngredient(@PathVariable Long id, @RequestBody IngredientDTO ingredientDTO) {
+//        return ingredientsService.updateIngredient(id, ingredientDTO).toResponsEntity();
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity delete(@PathVariable Long id) {
