@@ -32,7 +32,7 @@ public final class IngredientsController {
         return ingredientsService.findByID(id).toResponseEntity();
     }
 
-    @GetMapping("/search/{word}")
+    @PostMapping("/search/{word}")
     public ResponseEntity interactiveSearch(@PathVariable String word, @RequestBody IngredientSearchDTO searchDTO) {
         return ingredientsService.interactiveSearch(word, searchDTO).toResponseEntity();
     }
