@@ -26,16 +26,15 @@ import java.util.Objects;
 @NoArgsConstructor
 @IdClass(DietPlanIngredientId.class)
 @EqualsAndHashCode
-//@ToString
 public class DietPlanIngredient implements Serializable {
 
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @Id
     private Ingredient ingredient;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @Id
     private DietPlan dietPlan;
 
@@ -56,7 +55,8 @@ public class DietPlanIngredient implements Serializable {
         this.amount = amount;
     }
 
-    public void setDietPlan(DietPlan dietPlan) {
+    public DietPlanIngredient setDietPlan(DietPlan dietPlan) {
         this.dietPlan = dietPlan;
+        return this;
     }
 }
