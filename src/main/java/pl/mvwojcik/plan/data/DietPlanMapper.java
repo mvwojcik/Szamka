@@ -131,7 +131,7 @@ public class DietPlanMapper {
 
         Function<IngredientDTO, Ingredient> getIngredientForName = dietPlanIngredient ->
                 ingredients.stream()
-                        .filter(ingredient -> ingredient.getName().equalsIgnoreCase(ingredient.getName()))
+                        .filter(ingredient -> ingredient.getName().equalsIgnoreCase(dietPlanIngredient.getName()))
                         .findFirst()
                         .get();
         BiFunction<MealTime, List<IngredientAmount>, Set<DietPlanIngredient>> kk = (time, set) ->

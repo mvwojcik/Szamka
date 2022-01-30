@@ -59,7 +59,7 @@ public class DietPlan {
 
     private String description;
 
-    @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     private Set<DietPlanIngredient> ingredients;
 
     private DietAccessLevel accessType;
@@ -68,23 +68,15 @@ public class DietPlan {
     private Set<User> users;
 
 
-    public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.ingredients = ingredients.stream()
-                .map(i -> new DietPlanIngredient(MealTime.valueOf(i.getMealTime()), i.getAmount(), i.getIngredient(), this))
-                .collect(Collectors.toSet());
-    }
-
     public DietPlan(Long id, String name, String description, Set<DietPlanIngredient> ingredients, DietAccessLevel dietAccessLevel, Set<User> users) {
+        System.out.println("Use me");
         this.id = id;
         this.name = name;
         this.description = description;
         this.users = users;
         this.accessType = dietAccessLevel;
         this.ingredients = ingredients.stream()
-                .map(i -> new DietPlanIngredient(MealTime.valueOf(i.getMealTime()), i.getAmount(), i.getIngredient(), this))
+                .map(i -> i.setDietPlan(this))
                 .collect(Collectors.toSet());
     }
 
