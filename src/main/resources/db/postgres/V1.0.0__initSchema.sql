@@ -41,7 +41,7 @@ create table diet_plan_ingredient
     meal_time     varchar(255),
     diet_plan_id  int8 not null,
     ingredient_id int8 not null,
-    primary key (diet_plan_id, ingredient_id)
+    primary key (diet_plan_id, ingredient_id, meal_time)
 );
 
 create table dietplans
