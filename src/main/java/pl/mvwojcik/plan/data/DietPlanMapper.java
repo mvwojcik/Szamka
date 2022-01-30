@@ -2,13 +2,16 @@ package pl.mvwojcik.plan.data;
 
 import pl.mvwojcik.allergen.data.Allergen;
 import pl.mvwojcik.ingredient.data.IngredientMapper;
+import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.plan.MealTime;
 import pl.mvwojcik.plan.data.dto.DietPlanDTO;
 import pl.mvwojcik.plan.data.dto.DietPlanIngredientDTO;
+import pl.mvwojcik.plan.data.dto.DietPlanInputDTO;
 import pl.mvwojcik.plan.data.dto.DietPlanOutputDTO;
 import pl.mvwojcik.plan.data.dto.IngredientAmount;
 import pl.mvwojcik.plan.data.dto.IngredientsMealTime;
+import pl.mvwojcik.plan.data.dto.IngredientsMealTimeInput;
 import pl.mvwojcik.plan.data.dto.VitaminValue;
 import pl.mvwojcik.plan.data.model.DietPlan;
 import pl.mvwojcik.plan.data.model.DietPlanIngredient;
@@ -22,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -31,7 +35,7 @@ public class DietPlanMapper {
         return DietPlanIngredientDTO.builder()
                 .amount(dietPlanIngredient.getAmount())
                 .ingredient(IngredientMapper.mapIngredientToIngredientDTO(dietPlanIngredient.getIngredient(), vitamins))
-                .mealTime(dietPlanIngredient.getMealTime())
+                .mealTime(MealTime.valueOf(dietPlanIngredient.getMealTime()))
                 .build();
     }
 
@@ -57,7 +61,7 @@ public class DietPlanMapper {
         Map<String, VitaminValue> vitaminsValues = vitamins.stream().map(DietPlanMapper::mapVitamin)
                 .collect(Collectors.toMap(VitaminValue::getName, Function.identity()));
         List<IngredientsMealTime> collect = dietPlan.getIngredients().stream()
-                .collect(Collectors.groupingBy(DietPlanIngredient::getMealTime))
+                .collect(Collectors.groupingBy( d -> MealTime.valueOf(d.getMealTime())))
                 .entrySet()
                 .stream().map(DietPlanMapper::map).collect(Collectors.toList());
         int kcal = 0;
@@ -122,19 +126,22 @@ public class DietPlanMapper {
     }
 
 
-    public static DietPlan map(DietPlanDTO dietPlanDTO, List<Ingredient> ingredients) {
+    public static DietPlan map(DietPlanInputDTO dietPlanDTO, List<Ingredient> ingredients) {
 
 
-        Function<DietPlanIngredientDTO, Ingredient> getIngredientForName = dietPlanIngredient ->
+        Function<IngredientDTO, Ingredient> getIngredientForName = dietPlanIngredient ->
                 ingredients.stream()
-                        .filter(ingredient -> ingredient.getName().equalsIgnoreCase(dietPlanIngredient.getIngredientName()))
+                        .filter(ingredient -> ingredient.getName().equalsIgnoreCase(ingredient.getName()))
                         .findFirst()
                         .get();
+        BiFunction<MealTime, List<IngredientAmount>, Set<DietPlanIngredient>> kk = (time, set) ->
+                set.stream()
+                        .map(ia -> new DietPlanIngredient(time, ia.getAmount(), getIngredientForName.apply(ia.getIngredient())))
+                        .collect(Collectors.toSet());
 
 
-        Set<DietPlanIngredient> ingredientList = dietPlanDTO.getIngredients()
-                .stream()
-                .map(ingredient -> new DietPlanIngredient(ingredient.getMealTime(), ingredient.getAmount(), getIngredientForName.apply(ingredient)))
+        Set<DietPlanIngredient> ingredientList = dietPlanDTO.getMealTimes().stream()
+                .flatMap(input -> kk.apply(input.getMealTime(), input.getIngredientAmounts()).stream())
                 .collect(Collectors.toSet());
 
 

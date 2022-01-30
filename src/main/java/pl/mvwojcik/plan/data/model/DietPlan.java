@@ -3,6 +3,7 @@ package pl.mvwojcik.plan.data.model;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.mvwojcik.plan.MealTime;
 import pl.mvwojcik.user.User;
 
 import javax.persistence.CascadeType;
@@ -58,7 +59,7 @@ public class DietPlan {
 
     private String description;
 
-    @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dietPlan", orphanRemoval = true, cascade = CascadeType.MERGE)
     private Set<DietPlanIngredient> ingredients;
 
     private DietAccessLevel accessType;
@@ -72,7 +73,7 @@ public class DietPlan {
         this.name = name;
         this.description = description;
         this.ingredients = ingredients.stream()
-                .map(i -> new DietPlanIngredient(i.getMealTime(), i.getAmount(), i.getIngredient(), this))
+                .map(i -> new DietPlanIngredient(MealTime.valueOf(i.getMealTime()), i.getAmount(), i.getIngredient(), this))
                 .collect(Collectors.toSet());
     }
 
@@ -83,7 +84,7 @@ public class DietPlan {
         this.users = users;
         this.accessType = dietAccessLevel;
         this.ingredients = ingredients.stream()
-                .map(i -> new DietPlanIngredient(i.getMealTime(), i.getAmount(), i.getIngredient(), this))
+                .map(i -> new DietPlanIngredient(MealTime.valueOf(i.getMealTime()), i.getAmount(), i.getIngredient(), this))
                 .collect(Collectors.toSet());
     }
 

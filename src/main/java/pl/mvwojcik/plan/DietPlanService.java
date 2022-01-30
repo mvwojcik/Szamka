@@ -3,7 +3,6 @@ package pl.mvwojcik.plan;
 
 import io.vavr.Tuple;
 import io.vavr.Tuple2;
-import io.vavr.Tuple3;
 import io.vavr.control.Either;
 import io.vavr.control.Option;
 import org.springframework.data.domain.Page;
@@ -20,13 +19,14 @@ import pl.mvwojcik.ingredient.data.model.Ingredient;
 import pl.mvwojcik.plan.data.DietPlanMapper;
 import pl.mvwojcik.plan.data.DietPlanRepository;
 import pl.mvwojcik.plan.data.dto.DietPlanDTO;
+import pl.mvwojcik.plan.data.dto.DietPlanInputDTO;
 import pl.mvwojcik.plan.data.dto.DietPlanOutputDTO;
 import pl.mvwojcik.plan.data.model.DietPlan;
 import pl.mvwojcik.plan.data.model.DietPlanProjection;
 import pl.mvwojcik.recipe.RecipesService;
-import pl.mvwojcik.recipe.data.model.Recipe;
 import pl.mvwojcik.vitamins.VitaminsService;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -60,8 +60,8 @@ public class DietPlanService {
     }
 
 
-    public ServiceResponse create(DietPlanDTO dietPlan) {
-        return validator.runAllergenValidation(dietPlan)
+    public ServiceResponse create(DietPlanInputDTO dietPlan) {
+        return validator.runDietPlanValidation(dietPlan)
                 .toEither()
                 .flatMap(this::applyIngredientsAndRecipes)
                 .map(tuple -> DietPlanMapper.map(tuple._1, tuple._2))
@@ -88,10 +88,10 @@ public class DietPlanService {
         return dietPlan;
     }
 
-    private Either<ErrorResponse, Tuple2<DietPlanDTO, List<Ingredient>>> applyIngredientsAndRecipes(DietPlanDTO dietPlanDTO) {
-        List<Ingredient> allIngredientsIn = ingredientsService.findAllIngredientsIn(dietPlanDTO.getIngredientsName());
-        Tuple2<DietPlanDTO, List<Ingredient>> recipeTuple = Tuple.of(dietPlanDTO, allIngredientsIn);
-        return (recipeTuple._2.size() != dietPlanDTO.getIngredientsName().size()) ?
+    private Either<ErrorResponse, Tuple2<DietPlanInputDTO, List<Ingredient>>> applyIngredientsAndRecipes(DietPlanInputDTO dietPlanDTO) {
+        List<Ingredient> allIngredientsIn = ingredientsService.findAllIngredientsIn(new ArrayList<>(dietPlanDTO.getIngredientsNames()));
+        Tuple2<DietPlanInputDTO, List<Ingredient>> recipeTuple = Tuple.of(dietPlanDTO, allIngredientsIn);
+        return (recipeTuple._2.size() != dietPlanDTO.getIngredientsNames().size()) ?
                 Either.left(ErrorConstants.ingredientAmountNotEquals()) :
                 Either.right(recipeTuple);
     }

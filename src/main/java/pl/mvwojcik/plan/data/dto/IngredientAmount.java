@@ -9,4 +9,8 @@ import pl.mvwojcik.ingredient.data.dto.IngredientDTO;
 public class IngredientAmount {
     private IngredientDTO ingredient;
     private Double amount;
+
+    public String getIngredientName() {
+        return ingredient.getName();
+    }
 }

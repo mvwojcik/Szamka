@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.mvwojcik.plan.data.dto.DietPlanDTO;
+import pl.mvwojcik.plan.data.dto.DietPlanInputDTO;
 import pl.mvwojcik.plan.data.model.DietPlanProjection;
 
 @RestController
@@ -40,7 +41,7 @@ public class DietPlanController {
 //    }
 
     @PostMapping
-    public ResponseEntity createDietPlan(@RequestBody DietPlanDTO dietPlanDTO) {
+    public ResponseEntity createDietPlan(@RequestBody DietPlanInputDTO dietPlanDTO) {
         return dietPlanService.create(dietPlanDTO).toResponseEntity();
     }
 
