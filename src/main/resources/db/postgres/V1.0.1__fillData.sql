@@ -23,16 +23,16 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
        (2, 0.0, 0.8, 116, 25.5, 'tuńczyk z puszki z wodą', 'G100'),
        (3, 0.0, 8.2, 198, 29.1, 'tuńczyk z puszki z olejem', 'G100'),
        (4, 12.1, 25.1, 415, 17.1, 'łosoś', 'G100'),
-       (5, 12.1, 25.1, 415, 17.1, 'łosoś wędzony', 'G100'),
-       (6, 5.6, 0.1, 170, 10.5, 'mleko 3%', 'ML100'),
-       (7, 5.6, 0.1, 170, 10.5, 'mleko 6%', 'ML100'),
-       (8, 5.6, 0.1, 170, 10.5, 'mleko 3% bez laktozy', 'ML100'),
+       (5, 12.1, 20.1, 500, 19.1, 'łosoś wędzony', 'G100'),
+       (6, 5.6, 3, 170, 8.5, 'mleko 3%', 'ML100'),
+       (7, 6.0, 6, 250, 9.5, 'mleko 6%', 'ML100'),
+       (8, 5.6, 3, 150, 10.5, 'mleko 3% bez laktozy', 'ML100'),
        (9, 0.6, 11.6, 262, 8.9, 'mleko kokosowe', 'ML100'),
        (10, 5.6, 0.1, 170, 10.5, 'jogurt naturalny', 'ML100'),
-       (11, 5.6, 0.1, 170, 10.5, 'jogurt naturalny bez laktozy', 'ML100'),
-       (12, 0.5, 1.5, 345, 24.1, 'wołowina', 'G100'),
-       (13, 0.5, 1.5, 345, 24.1, 'wieprzowina', 'G100'),
-       (14, 0.5, 1.5, 345, 24.1, 'kurczak', 'G100'),
+       (11, 5.0, 0.1, 150, 10.5, 'jogurt naturalny bez laktozy', 'ML100'),
+       (12, 0.9, 8.2, 450, 30.2, 'wołowina', 'G100'),
+       (13, 2.1, 10.1, 345, 24.1, 'wieprzowina', 'G100'),
+       (14, 3.1, 5.2, 300, 22.5, 'kurczak', 'G100'),
        (15, 60.6, 11.6, 361, 8.9, 'migdał', 'G100'),
        (16, 60.6, 11.6, 361, 8.9, 'pistacja', 'G100'),
        (17, 60.6, 11.6, 361, 8.9, 'orzech włoski', 'G100'),
@@ -67,7 +67,9 @@ VALUES (1, 0.0, 0.9, 108, 23.4, 'tuńczyk', 'G100'),
        (46, 47.1, 1.5, 60, 0.4, 'Jabłko', 'G100'),
        (47, 45.1, 1.5, 60, 0.4, 'Maliny', 'G100'),
        (48, 31.1, 1.5, 60, 0.4, 'Imbir', 'G100'),
-       (49, 12.1, 1.5, 60, 60.4, 'Białko WPC', 'G100');
+       (49, 12.1, 1.5, 60, 60.4, 'Białko WPC', 'G100'),
+       (50, 4.1, 70.2, 320, 0.4, 'Oliwa', 'ML100'),
+       (51, 3.1, 74.2, 325, 0.4, 'Olej słonecznikowy', 'ML100');
 ;
 
 
@@ -116,19 +118,22 @@ VALUES (1, 4),
 
 INSERT INTO public.recipes(id, description, image_url, name, rating,
                            short_description)
-VALUES (1, 'description', 'https://google.pl', 'tuna with potatoes', 2.6, 'short Description'),
-       (2, 'description', 'https://google.pl', 'Salomon in coconut', 3.1, 'short Description'),
-       (3, 'description', 'https://google.pl', 'Tomatoes with potatoes', 3.6, 'short Description'),
-       (4, 'description', 'https://google.pl', 'Almond with meat', 5.0, 'short Description')
+VALUES (1, 'Pyszny zapiekany tuńczyk z ziemniakami', 'https://google.pl', 'Tuńczyk z ziemniakami', 2.6, 'Pyszny zapiekany tuńczyk z ziemniakami'),
+       (2, 'Łosoś smażony na mleku kokosowym z zielonym dressingiem', 'https://google.pl', 'Łosoś w mleku kokosowym', 3.1, 'Łosoś smażony na mleku kokosowym z zielonym dressingiem'),
+       (3, 'Ostre chili con care', 'https://google.pl', 'Chili con care', 3.6, 'Ostre chili con care'),
+       (4, 'Wołowina na ostro doprawiona po seczuańsku', 'https://google.pl', 'Wołowina po seczuańsku', 5.0, 'Wołowina na ostro doprawiona po seczuańsku'),
+       (5, 'Klasyczny kurczak wraz z ziemniakami', 'https://google.pl', 'Kurczak z ziemniakami', 4.0, 'Klasyczny kurczak wraz z ziemniakami'),
+       (6, 'Brokuły smażone na oliwie wraz z tofu', 'https://google.pl', 'Brokuły smażone z tofu', 3.5, 'Brokuły smażone na oliwie wraz z tofu');
 ;
 
 
 INSERT INTO public.recipe_ingredient(amount, recipe_id, ingredient_id)
 VALUES (3.0, 1, 1),
-       (2.0, 1, 7),
-       (0.01, 1, 9),
-       (2.0, 2, 4),
-       (1.0, 2, 8),
+       (2.0, 1, 29),
+       (2.0, 1, 50),
+       (3.0, 2, 4),
+       (1.0, 2,22),
+       (1.0, 2, 9),
        (1.0, 3, 6),
        (1.0, 3, 7),
        (1.5, 4, 3),
@@ -179,8 +184,8 @@ VALUES (8, 2, 0.4),
        (40, 23, 23);
 
 INSERT INTO public.dietplans(id, name, description)
-VALUES (1, 'Pierwszy plan żywieniowy', 'Check it out'),
-       (2, 'Plan bez glutenowy', 'Check this out');
+VALUES (1, 'Plan żywieniowy bez laktozy oraz bez glutenu', 'W planie nie zostały uwzględnione składniki z laktozą oraz glutenem'),
+       (2, 'Plan żywieniowy antyhistaminowy', 'W planie nie zostały uwzględnione składniki związane z histaminą');
 
 
 INSERT INTO public.diet_plan_ingredient(diet_plan_id, ingredient_id, meal_time, amount)
