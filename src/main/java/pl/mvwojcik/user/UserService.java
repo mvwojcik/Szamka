@@ -55,7 +55,7 @@ public class UserService {
 
     @Transactional
     public Either<ErrorResponse, UserDTO> createUser(UserRegistrationDTO userRegistrationDTO) {
-        Set<Allergen> allergens = allergensRepository.findByNameInIgnoreCase(userRegistrationDTO.getAllergenNames());
+        Set<Allergen> allergens = allergensRepository.findByNameInIgnoreCase(userRegistrationDTO.getAllergens());
         User user = usersRepository.save(createApplicationUser(userRegistrationDTO,allergens));
         UserAccessDetails userAccessDetails = userDetailsService.save(userRegistrationDTO);
         return (user.getId() != null && userAccessDetails.getId() != null) ?

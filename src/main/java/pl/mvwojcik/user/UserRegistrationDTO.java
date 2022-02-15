@@ -21,10 +21,6 @@ public class UserRegistrationDTO {
 
     private Integer activityLevel;
 
-    private Set<AllergenDTO> allergens;
+    private Set<String> allergens;
 
-    @JsonIgnore
-    public Set<String> getAllergenNames() {
-        return allergens.stream().map(AllergenDTO::getName).collect(Collectors.toSet());
-    }
 }
