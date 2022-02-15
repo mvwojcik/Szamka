@@ -46,7 +46,7 @@ public final class AllergensService {
 
     public final ServiceResponse getAll(int page) {
         return new ContentResponse<>(HttpStatus.OK,repository
-                .findAll(PageRequest.of(page,10))
+                .findAll(PageRequest.of(page,20))
                 .map(AllergenMapper::mapAllergenToAllergenDTO));
     }
 
