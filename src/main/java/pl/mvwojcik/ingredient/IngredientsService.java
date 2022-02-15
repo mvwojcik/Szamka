@@ -80,7 +80,7 @@ public final class IngredientsService {
 
     public ContentResponse<Page<IngredientProjection>> getAll(int page) {
         return new ContentResponse<>(HttpStatus.OK, ingredientsRepository
-                .findAllBy(PageRequest.of(page, 10)));
+                .findAllBy(PageRequest.of(page, 20)));
     }
 
 //    public ContentResponse<Page<IngredientProjection>> getAllNotContaining(List<AllergenDTO> allergens) {
